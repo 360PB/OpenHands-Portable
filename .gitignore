@@ -1,0 +1,51 @@
+# =============================================
+# OpenHands Portable - Git Ignore
+# =============================================
+
+# --- User Data & Secrets ---
+workspace/
+configs/config.toml
+*.env
+.env.local
+.env.*
+
+# --- Runtime Binaries (too large for GitHub) ---
+runtime/
+images/
+
+# --- IDE / Editor ---
+.claude/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# --- Node.js ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- OS Generated ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Logs ---
+*.log
+logs/
+
+# Runtime generated config
+app/config.toml
+

@@ -1,0 +1,33 @@
+﻿###################### OpenHands Portable Configuration ######################
+#
+# 渚挎惡鐗堥厤缃枃浠?- 璇峰～鍏ヤ綘鐨?API Key
+#
+##############################################################################
+
+[core]
+# 宸ヤ綔鍖哄熀纭€璺緞
+workspace_base = "./workspace"
+
+# 璋冭瘯妯″紡
+debug = false
+
+# 鏈€澶ц凯浠ｆ鏁?max_iterations = 500
+
+# 榛樿浠ｇ悊
+default_agent = "CodeActAgent"
+
+# 杩愯鏃剁幆澧冿紙docker / local / remote锛?runtime = "docker"
+
+#################################### LLM #####################################
+# LLM 閰嶇疆
+##############################################################################
+[llm]
+# 璇峰湪姝ゅ濉叆浣犵殑 LLM API Key
+api_key = "YOUR_API_KEY_HERE"
+
+# 妯″瀷鍚嶇О
+model = "gpt-4o"
+
+# API 鍩虹 URL锛堟湰鍦?LLM 浣跨敤锛屽 LM Studio銆丱llama 绛夛級
+base_url = "https://api.openai.com/v1"
+
