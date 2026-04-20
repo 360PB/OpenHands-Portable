@@ -32,6 +32,7 @@ OpenHands-Portable/
 │   └── stop.ps1                     # 进程清理
 ├── skills/                   # 使用指南文档
 │   ├── openhands-docker-export.md
+│   ├── openhands-push.md
 │   └── openhands-update.md
 ├── start.bat                 # 一键启动
 ├── stop.bat                  # 一键停止
@@ -70,9 +71,9 @@ base_url = "https://api.openai.com/v1"
 双击 `start.bat`，脚本会：
 
 1. 检查 Docker Desktop 是否运行
-2. 检查 `ghcr.io/openhands/agent-server:1.17.0-python` 镜像是否存在
-3. 如果不存在且联网，自动 `docker pull`
-4. 如果离线，从 `images/*.tar` 加载
+2. **优先**从 `images/*.tar` 加载镜像（离线场景）
+3. 如无 tar，检查本地是否已有镜像
+4. 如无镜像且联网，自动 `docker pull`
 5. 启动后端 (port 3000) 和前端 (port 3001)
 
 访问 http://localhost:3001 即可使用。
