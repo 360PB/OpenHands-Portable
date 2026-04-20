@@ -1,6 +1,8 @@
 # OpenHands Portable (Windows 离线整合包)
 
 > 基于 [OpenHands](https://github.com/All-Hands-AI/OpenHands) 制作的 Windows 离线便携式部署包，无需安装 Python/Node.js，开箱即用。
+>
+> 下载链接：https://pan.quark.cn/s/bc84a34d1a33
 
 ## 特性
 
