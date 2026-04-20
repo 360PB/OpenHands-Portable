@@ -30,36 +30,45 @@ if errorlevel 1 (
     exit /b 1
 )
 
-:: Auto-download required Docker images
+:: Docker image handling: prefer local tar, fallback to pull
 echo [INFO] Checking Docker images...
-docker inspect ghcr.io/openhands/agent-server:1.17.0-python >nul 2>&1
-if errorlevel 1 (
-    :: Try loading from local tar file first
-    if exist "%ROOT%\images\agent-server-1.17.0-python.tar" (
-        echo [INFO] Loading image from images\agent-server-1.17.0-python.tar...
-        docker load -i "%ROOT%\images\agent-server-1.17.0-python.tar"
-        if errorlevel 1 (
-            echo [WARN] Failed to load local tar, will try docker pull...
-        )
-    )
-    
-    :: Check again after load
-    docker inspect ghcr.io/openhands/agent-server:1.17.0-python >nul 2>&1
+set "AGENT_IMAGE=ghcr.io/openhands/agent-server:1.17.0-python"
+set "LOCAL_TAR=%ROOT%\images\agent-server-1.17.0-python.tar"
+
+:: Priority 1: Load from local tar if available
+if exist "%LOCAL_TAR%" (
+    echo [INFO] Found local tar: images\agent-server-1.17.0-python.tar
+    echo [INFO] Loading image from tar...
+    docker load -i "%LOCAL_TAR%"
     if errorlevel 1 (
-        echo [INFO] Downloading agent-server image, please wait...
-        echo [TIP] If download is slow, run scripts\configure-docker-mirror.bat first
-        docker pull ghcr.io/openhands/agent-server:1.17.0-python
-        if errorlevel 1 (
-            echo [ERROR] Failed to download image. Check network and Docker settings.
-            echo [TIP] For China users: run scripts\configure-docker-mirror.bat to use domestic mirrors
-            echo [TIP] Or copy a pre-downloaded tar to images\agent-server-1.17.0-python.tar
-            pause
-            exit /b 1
-        )
+        echo [WARN] Failed to load from tar, will check existing image or try pull...
+    ) else (
+        echo [INFO] Image loaded from tar successfully
+        goto :image_done
     )
-) else (
-    echo [INFO] Docker image already exists
 )
+
+:: Priority 2: Check if image already exists locally
+docker inspect %AGENT_IMAGE% >nul 2>&1
+if not errorlevel 1 (
+    echo [INFO] Docker image already exists locally
+    goto :image_done
+)
+
+:: Priority 3: Download from registry (requires internet)
+echo [INFO] Local tar not found and image not present.
+echo [INFO] Downloading from registry, please wait...
+echo [TIP] If download is slow, run scripts\configure-docker-mirror.bat first
+docker pull %AGENT_IMAGE%
+if errorlevel 1 (
+    echo [ERROR] Failed to download image. Check network and Docker settings.
+    echo [TIP] For China users: run scripts\configure-docker-mirror.bat to use domestic mirrors
+    echo [TIP] Or copy a pre-downloaded tar to images\agent-server-1.17.0-python.tar
+    pause
+    exit /b 1
+)
+
+:image_done
 
 :: Setup workspace
 set "WORKSPACE=%ROOT%\workspace"
